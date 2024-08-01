@@ -258,7 +258,7 @@ def ChessboardTexture(board_size, square_size):
 
 
 if __name__ == "__main__":
-    points = GeneratePoints(theta=np.pi/2.3)
+    points = GeneratePoints(theta=np.pi/4)
     points = FarAwayPoints(points)
     points = PerspProject(points)
 
