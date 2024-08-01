@@ -69,7 +69,7 @@ def DrawFlatTopTriangle(v0, v1, v2, color):
         xEnd = math.ceil(itEdge1.x - 0.5)  # 注意，这里是最后绘制那个像素+1
         # 为什么要+1？因为for循环左闭右开，进行+1完，才能变成左闭右闭
 
-        delta = (itEdge1 - itEdge0) / (itEdge1.x / itEdge0.x)
+        delta = (itEdge1 - itEdge0) / (itEdge1.x - itEdge0.x)
         interpolator = itEdge0 + delta * (xStart + 0.5 - itEdge0.x)
 
         for x in range(int(xStart), int(xEnd)):
@@ -115,7 +115,7 @@ def DrawFlatBottomTriangle(v0, v1, v2, color):
         xEnd = math.ceil(itEdge1.x - 0.5)  # 注意，这里是最后绘制那个像素+1
         # 为什么要+1？因为for循环左闭右开，进行+1完，才能变成左闭右闭
 
-        delta = (itEdge1 - itEdge0) / (itEdge1.x / itEdge0.x)
+        delta = (itEdge1 - itEdge0) / (itEdge1.x - itEdge0.x)
         interpolator = itEdge0 + delta * (xStart + 0.5 - itEdge0.x)
 
         for x in range(int(xStart), int(xEnd)):
