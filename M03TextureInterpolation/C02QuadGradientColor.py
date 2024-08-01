@@ -29,6 +29,16 @@ class Vec5:
 fb = FrameBuffer(100, 100)
 
 
+def rgbClamp(rgbValue):
+    rgbValue = int(rgbValue)
+    if rgbValue > 255:
+        return 255
+    elif rgbValue < 0:
+        return 0
+    else:
+        return rgbValue
+
+
 def DrawFlatTopTriangle(v0, v1, v2, color):
     # 特殊情况判断
     if v2.y == v0.y:
@@ -63,7 +73,11 @@ def DrawFlatTopTriangle(v0, v1, v2, color):
         interpolator = itEdge0 + delta * (xStart + 0.5 - itEdge0.x)
 
         for x in range(int(xStart), int(xEnd)):
-            fb.set_pixel(x, y, color)
+            fb.set_pixel(x, y, (
+                rgbClamp(interpolator.u * 255),
+                rgbClamp(interpolator.v * 255),
+                0
+            ))
             interpolator += delta
 
         # 每次扫描线循环，递增Interpolator
@@ -105,7 +119,11 @@ def DrawFlatBottomTriangle(v0, v1, v2, color):
         interpolator = itEdge0 + delta * (xStart + 0.5 - itEdge0.x)
 
         for x in range(int(xStart), int(xEnd)):
-            fb.set_pixel(x, y, color)
+            fb.set_pixel(x, y, (
+                rgbClamp(interpolator.u * 255),
+                rgbClamp(interpolator.v * 255),
+                0
+            ))
             interpolator += delta
 
         # 每次扫描线循环，递增Interpolator
