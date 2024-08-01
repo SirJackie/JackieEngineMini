@@ -19,7 +19,7 @@ class Vec2:
 
 
 # Create a frame buffer of size 100x100 as global variable
-fb = FrameBuffer(16, 8)
+fb = FrameBuffer(100, 100)
 
 
 def DrawFlatTopTriangle(v0, v1, v2, color):
@@ -161,8 +161,6 @@ def PerspProject(points):
 
 
 if __name__ == "__main__":
-    fb = FrameBuffer(100, 100)
-
     points = GeneratePoints(theta=np.pi/4)
     points = FarAwayPoints(points)
 
