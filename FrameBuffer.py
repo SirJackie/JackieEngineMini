@@ -45,3 +45,16 @@ class FrameBuffer:
         plt.imshow(new_buffer)
         plt.axis('off')  # 隐藏坐标轴
         plt.show()
+
+    def display_animated_start(self):
+        plt.ion()
+
+    def display_animated_update(self):
+        # Display the buffer using matplotlib
+        plt.clf()  # 清除垃圾缓冲，加快速度，否则FPS随时间越来越低
+        plt.imshow(self.buffer)
+        plt.axis('off')  # Hide axis
+        plt.pause(0.001)  # 暂停以允许图形更新
+
+    def display_animated_stop(self):
+        plt.ioff()
