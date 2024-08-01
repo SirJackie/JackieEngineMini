@@ -22,42 +22,66 @@ fb = FrameBuffer(16, 8)
 
 
 def DrawFlatTopTriangle(v0, v1, v2, color):
+    # 特殊情况判断
     if v2.y == v0.y:
         return  # 防止遇到这种奇葩：[[4.5, 0.5], [4.5, 0.5], [4.5, 0.5]]
 
+    # 计算三角形两条边的反斜率
+    # 为什么用反斜率？因为反斜率kPrime对应deltaX，而正斜率k对应deltaY
+    # 我们每行每行遍历，每行y+=1，所以x+=deltaX，反斜率更符合要求
+    # 并且反斜率有个好处，不会出现除以0的情况（您可以带几个值试试看）
     m0 = (v2.x - v0.x) / (v2.y - v0.y)
     m1 = (v2.x - v1.x) / (v2.y - v1.y)
 
+    # 计算扫描线的yStart和yEnd坐标
     yStart = math.ceil(v0.y - 0.5)
-    yEnd = math.ceil(v2.y - 0.5)
+    yEnd = math.ceil(v2.y - 0.5)  # 注意，这里是最后绘制那根线+1
+    # 为什么要+1？因为for循环左闭右开，进行+1完，才能变成左闭右闭
 
     for y in range(int(yStart), int(yEnd)):
+
+        # 计算这行扫描线的：两个边缘端顶点
+        # 注意，y一定要+0.5，因为像素中心都是有0.5的（例如(5.5, 7.5)是中心）
         px0 = m0 * (float(y) + 0.5 - v0.y) + v0.x
         px1 = m1 * (float(y) + 0.5 - v1.y) + v1.x
 
+        # 计算“这行”扫描线的xStart和xEnd坐标
         xStart = math.ceil(px0 - 0.5)
-        xEnd = math.ceil(px1 - 0.5)
+        xEnd = math.ceil(px1 - 0.5)  # 注意，这里是最后绘制那个像素+1
+        # 为什么要+1？因为for循环左闭右开，进行+1完，才能变成左闭右闭
 
         for x in range(int(xStart), int(xEnd)):
             fb.set_pixel(x, y, color)
 
 
 def DrawFlatBottomTriangle(v0, v1, v2, color):
+    # 特殊情况判断
     if v1.y == v0.y:
         return  # 防止遇到这种奇葩：[[4.5, 0.5], [4.5, 0.5], [4.5, 0.5]]
 
+    # 计算三角形两条边的反斜率
+    # 为什么用反斜率？因为反斜率kPrime对应deltaX，而正斜率k对应deltaY
+    # 我们每行每行遍历，每行y+=1，所以x+=deltaX，反斜率更符合要求
+    # 并且反斜率有个好处，不会出现除以0的情况（您可以带几个值试试看）
     m0 = (v1.x - v0.x) / (v1.y - v0.y)
     m1 = (v2.x - v0.x) / (v2.y - v0.y)
 
+    # 计算扫描线的yStart和yEnd坐标
     yStart = math.ceil(v0.y - 0.5)
-    yEnd = math.ceil(v2.y - 0.5)
+    yEnd = math.ceil(v2.y - 0.5)  # 注意，这里是最后绘制那根线+1
+    # 为什么要+1？因为for循环左闭右开，进行+1完，才能变成左闭右闭
 
     for y in range(int(yStart), int(yEnd)):
+
+        # 计算这行扫描线的：两个边缘端顶点
+        # 注意，y一定要+0.5，因为像素中心都是有0.5的（例如(5.5, 7.5)是中心）
         px0 = m0 * (float(y) + 0.5 - v0.y) + v0.x
         px1 = m1 * (float(y) + 0.5 - v0.y) + v0.x
 
+        # 计算“这行”扫描线的xStart和xEnd坐标
         xStart = math.ceil(px0 - 0.5)
-        xEnd = math.ceil(px1 - 0.5)
+        xEnd = math.ceil(px1 - 0.5)  # 注意，这里是最后绘制那个像素+1
+        # 为什么要+1？因为for循环左闭右开，进行+1完，才能变成左闭右闭
 
         for x in range(int(xStart), int(xEnd)):
             fb.set_pixel(x, y, color)
