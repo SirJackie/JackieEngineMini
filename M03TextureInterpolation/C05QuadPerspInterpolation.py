@@ -102,7 +102,16 @@ def DrawFlatTopTriangle(v0, v1, v2, texture, shader):
         interpolator = itEdge0 + delta * (xStart + 0.5 - itEdge0.x)
 
         for x in range(int(xStart), int(xEnd)):
-            fb.set_pixel(x, y, shader(interpolator, texture))
+            z_Inv = 1.0 / interpolator.z
+            interpolator_persp = Vec5(
+                interpolator.x,
+                interpolator.y,
+                interpolator.z,
+                interpolator.u * z_Inv,
+                interpolator.v * z_Inv
+            )
+
+            fb.set_pixel(x, y, shader(interpolator_persp, texture))
             interpolator += delta
 
         # 每次扫描线循环，递增Interpolator
@@ -144,7 +153,16 @@ def DrawFlatBottomTriangle(v0, v1, v2, texture, shader):
         interpolator = itEdge0 + delta * (xStart + 0.5 - itEdge0.x)
 
         for x in range(int(xStart), int(xEnd)):
-            fb.set_pixel(x, y, shader(interpolator, texture))
+            z_Inv = 1.0 / interpolator.z
+            interpolator_persp = Vec5(
+                interpolator.x,
+                interpolator.y,
+                interpolator.z,
+                interpolator.u * z_Inv,
+                interpolator.v * z_Inv
+            )
+
+            fb.set_pixel(x, y, shader(interpolator_persp, texture))
             interpolator += delta
 
         # 每次扫描线循环，递增Interpolator
@@ -212,14 +230,14 @@ def PerspProject(points):
     points_prime = []
 
     for point in points:
-        x_1 = point.x / -point.z
-        y_1 = point.y / -point.z
-
-        x = 50 + x_1 * 50
-        y = 50 - y_1 * 50
-
         points_prime.append(
-            Vec5(x, y, point.z, point.u, point.v)
+            Vec5(
+                50 + (point.x / -point.z) * 50,
+                50 - (point.y / -point.z) * 50,
+                1.0 / -point.z,
+                point.u / -point.z,
+                point.v / -point.z
+            )
         )
 
     return points_prime
