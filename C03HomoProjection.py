@@ -20,7 +20,7 @@ def HomoProject(points):
 
     for point in points:
         x = 50 + point[0] * 25
-        y = 50 + point[1] * 25
+        y = 50 - point[1] * 25
         points_2d.append([x, y])
 
     return points_2d

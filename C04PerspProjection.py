@@ -37,7 +37,7 @@ def PerspProject(points):
         y_1 = point[1] / -point[2]
 
         x = 50 + x_1 * 25
-        y = 50 + y_1 * 25
+        y = 50 - y_1 * 25
 
         points_2d.append([x, y])
 
